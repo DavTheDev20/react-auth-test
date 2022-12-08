@@ -50,7 +50,7 @@ app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, functi
         newUser.save((err, user) => {
             if (err)
                 return res.status(400).json({ success: false, error: err.message });
-            const jwt_token = jsonwebtoken_1.default.sign({ _id: user._id, email: user.email, name: user.name }, JWT_SECRET, { algorithm: 'HS256' });
+            const jwt_token = jsonwebtoken_1.default.sign({ id: user._id, email: user.email, name: user.name }, JWT_SECRET, { algorithm: 'HS256' });
             return res.status(200).json({ success: true, token: jwt_token });
         });
     }
@@ -58,5 +58,35 @@ app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, functi
         return res.status(400).json({ success: false, error: err.message });
     }
 }));
-app.post('/api/login', (req, res) => { });
+app.post('/api/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const body = req.body;
+    if (!body.email || !body.password)
+        return res.status(400).json({
+            success: false,
+            error: 'Please include email and password in request body.',
+        });
+    const currentUser = yield user_1.default.findOne({ email: body.email });
+    if (!currentUser)
+        return res.status(400).json({ success: false, error: 'No user found.' });
+    bcrypt_1.default
+        .compare(body.password, currentUser.password)
+        .then((isPasswordCorrect) => {
+        if (isPasswordCorrect === true) {
+            const jwt_token = jsonwebtoken_1.default.sign({
+                id: currentUser._id,
+                email: currentUser.email,
+                name: currentUser.name,
+            }, JWT_SECRET, { algorithm: 'HS256' });
+            return res.status(200).json({ success: true, token: jwt_token });
+        }
+        else {
+            return res
+                .status(401)
+                .json({ success: false, error: 'Incorrect password' });
+        }
+    })
+        .catch((err) => {
+        return res.status(500).json({ success: false, error: err });
+    });
+}));
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

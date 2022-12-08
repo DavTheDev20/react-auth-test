@@ -50,8 +50,8 @@ app.post('/api/register', async (req, res) => {
       if (err)
         return res.status(400).json({ success: false, error: err.message });
 
-      const jwt_token = jwt.sign(
-        { _id: user._id, email: user.email, name: user.name },
+      const jwt_token: string = jwt.sign(
+        { id: user._id, email: user.email, name: user.name },
         JWT_SECRET,
         { algorithm: 'HS256' }
       );
@@ -63,6 +63,43 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-app.post('/api/login', (req, res) => {});
+app.post('/api/login', async (req, res) => {
+  const body: { email: string; password: string } = req.body;
+
+  if (!body.email || !body.password)
+    return res.status(400).json({
+      success: false,
+      error: 'Please include email and password in request body.',
+    });
+
+  const currentUser = await User.findOne({ email: body.email });
+
+  if (!currentUser)
+    return res.status(400).json({ success: false, error: 'No user found.' });
+
+  bcrypt
+    .compare(body.password, currentUser.password)
+    .then((isPasswordCorrect) => {
+      if (isPasswordCorrect === true) {
+        const jwt_token: string = jwt.sign(
+          {
+            id: currentUser._id,
+            email: currentUser.email,
+            name: currentUser.name,
+          },
+          JWT_SECRET,
+          { algorithm: 'HS256' }
+        );
+        return res.status(200).json({ success: true, token: jwt_token });
+      } else {
+        return res
+          .status(401)
+          .json({ success: false, error: 'Incorrect password' });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({ success: false, error: err });
+    });
+});
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
