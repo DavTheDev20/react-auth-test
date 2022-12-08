@@ -30,7 +30,7 @@ const JWT_SECRET = 'secret';
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, morgan_1.default)('dev'));
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ credentials: true }));
 app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     if (!body.email || !body.username || !body.password || !body.name)
@@ -38,6 +38,10 @@ app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, functi
             success: false,
             error: 'Please include email, username, password, and name in request body.',
         });
+    if (yield user_1.default.findOne({ email: body.email }))
+        return res
+            .status(400)
+            .json({ success: false, error: 'User already exists with that email.' });
     try {
         const salt = yield bcrypt_1.default.genSalt(SALT_ROUNDS);
         const hash = yield bcrypt_1.default.hash(body.password, salt);

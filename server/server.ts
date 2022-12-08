@@ -20,7 +20,7 @@ dbConnect(MONGODB_URI);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({ credentials: true }));
 
 app.post('/api/register', async (req, res) => {
   const body: {
@@ -36,6 +36,11 @@ app.post('/api/register', async (req, res) => {
       error:
         'Please include email, username, password, and name in request body.',
     });
+
+  if (await User.findOne({ email: body.email }))
+    return res
+      .status(400)
+      .json({ success: false, error: 'User already exists with that email.' });
 
   try {
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
