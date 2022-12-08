@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const NavBar = () => {
   const navBarStyles = {
     nav: {
@@ -17,13 +19,13 @@ const NavBar = () => {
 
   return (
     <nav style={navBarStyles.nav}>
-      <a href="#">React Auth</a>
+      <Link to="/">React Auth</Link>
       <ul style={navBarStyles.navLinks}>
         <li>
           <a href="/">Login</a>
         </li>
         <li>
-          <a href="/">Register</a>
+          <a href="/register">Register</a>
         </li>
       </ul>
     </nav>
