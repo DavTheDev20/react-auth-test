@@ -22,10 +22,10 @@ const NavBar = () => {
       <Link to="/">React Auth</Link>
       <ul style={navBarStyles.navLinks}>
         <li>
-          <a href="/">Login</a>
+          <Link to="/login">Login</Link>
         </li>
         <li>
-          <a href="/register">Register</a>
+          <Link to="/register">Register</Link>
         </li>
       </ul>
     </nav>
