@@ -33,10 +33,10 @@ app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)());
 app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    if (!body.email || !body.username || !body.password)
+    if (!body.email || !body.username || !body.password || !body.name)
         return res.status(400).json({
             success: false,
-            error: 'Please include email, username, and password in request body.',
+            error: 'Please include email, username, password, and name in request body.',
         });
     try {
         const salt = yield bcrypt_1.default.genSalt(SALT_ROUNDS);
@@ -45,11 +45,12 @@ app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, functi
             email: body.email,
             username: body.username,
             password: hash,
+            name: body.name,
         });
         newUser.save((err, user) => {
             if (err)
                 return res.status(400).json({ success: false, error: err.message });
-            const jwt_token = jsonwebtoken_1.default.sign({ _id: user._id, email: user.email }, JWT_SECRET, { algorithm: 'HS256' });
+            const jwt_token = jsonwebtoken_1.default.sign({ _id: user._id, email: user.email, name: user.name }, JWT_SECRET, { algorithm: 'HS256' });
             return res.status(200).json({ success: true, token: jwt_token });
         });
     }
@@ -57,4 +58,5 @@ app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, functi
         return res.status(400).json({ success: false, error: err.message });
     }
 }));
+app.post('/api/login', (req, res) => { });
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

@@ -23,12 +23,18 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.post('/api/register', async (req, res) => {
-  const body: { email: string; username: string; password: string } = req.body;
+  const body: {
+    email: string;
+    username: string;
+    password: string;
+    name: string;
+  } = req.body;
 
-  if (!body.email || !body.username || !body.password)
+  if (!body.email || !body.username || !body.password || !body.name)
     return res.status(400).json({
       success: false,
-      error: 'Please include email, username, and password in request body.',
+      error:
+        'Please include email, username, password, and name in request body.',
     });
 
   try {
@@ -38,13 +44,14 @@ app.post('/api/register', async (req, res) => {
       email: body.email,
       username: body.username,
       password: hash,
+      name: body.name,
     });
     newUser.save((err, user) => {
       if (err)
         return res.status(400).json({ success: false, error: err.message });
 
       const jwt_token = jwt.sign(
-        { _id: user._id, email: user.email },
+        { _id: user._id, email: user.email, name: user.name },
         JWT_SECRET,
         { algorithm: 'HS256' }
       );
@@ -55,5 +62,7 @@ app.post('/api/register', async (req, res) => {
     return res.status(400).json({ success: false, error: err.message });
   }
 });
+
+app.post('/api/login', (req, res) => {});
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

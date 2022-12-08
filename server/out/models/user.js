@@ -18,6 +18,10 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    name: {
+        type: String,
+        required: true,
+    },
     admin: {
         type: Boolean,
         required: false,
