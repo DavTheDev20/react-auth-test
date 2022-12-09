@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -74,23 +73,7 @@ const Register = () => {
       return alert('Please enter all information to register.');
     }
 
-    axios({
-      method: 'POST',
-      url: apiUrl,
-      data: newUserData,
-      withCredentials: true,
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          console.log(res.data);
-        }
-        // TODO: Determine why cookie is not setting in browser.
-        return navigate('/');
-      })
-      .catch((err) => {
-        console.log(err);
-        return alert('Error: ' + err.response.data.error);
-      });
+    //TODO: FIX API REQUEST TO SAVE COOKIE TO BROWSER
   };
 
   return (

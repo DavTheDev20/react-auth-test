@@ -60,7 +60,7 @@ app.post('/api/register', async (req, res) => {
         JWT_SECRET,
         { algorithm: 'HS256' }
       );
-      res.cookie('token', jwt_token);
+      // TODO: FIX API ROUTE TO DELIVER COOKIE TO BROWSER
       return res.status(200).json({ success: true });
     });
   } catch (err: any) {

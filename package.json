@@ -1,0 +1,27 @@
+{
+  "name": "react-auth-test",
+  "version": "1.0.0",
+  "description": "This repo is a full stack application using node for the backend and react for the frontend. It is meant to test how to implement auth into a react frontend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/out/server.js",
+    "server": "nodemon ./server/out/server.js",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently -n \"server,client\" -c \"red,blue\" \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavTheDev20/react-auth-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavTheDev20/react-auth-test/issues"
+  },
+  "homepage": "https://github.com/DavTheDev20/react-auth-test#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
