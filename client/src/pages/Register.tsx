@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { storeToken } from '../auth';
 
 const Register = () => {
   const [newUserData, setNewUserData] = useState({
@@ -62,8 +64,6 @@ const Register = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    const apiUrl = 'http://localhost:8080/api/register';
-
     if (
       !newUserData.email ||
       !newUserData.username ||
@@ -73,7 +73,26 @@ const Register = () => {
       return alert('Please enter all information to register.');
     }
 
-    //TODO: FIX API REQUEST TO SAVE COOKIE TO BROWSER
+    axios({
+      method: 'POST',
+      url: 'http://localhost:8080/api/register',
+      data: newUserData,
+    })
+      .then((res) => {
+        if (res.status > 299) {
+          console.error(res.data);
+          return alert('Something went wrong...');
+        }
+
+        const token = res.data.token;
+        storeToken(token);
+        navigate('/');
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('Something went wrong...');
+      });
   };
 
   return (

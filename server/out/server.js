@@ -55,11 +55,7 @@ app.post('/api/register', (req, res) => __awaiter(void 0, void 0, void 0, functi
             if (err)
                 return res.status(400).json({ success: false, error: err.message });
             const jwt_token = jsonwebtoken_1.default.sign({ id: user._id, email: user.email, name: user.name }, JWT_SECRET, { algorithm: 'HS256' });
-            const origin = req.headers.origin;
-            res.setHeader('Access-Control-Allow-Origin', origin);
-            res.setHeader('Access-Control-Allow-Credentials', true);
-            res.cookie('token', jwt_token);
-            return res.status(200).json({ success: true });
+            return res.status(200).json({ success: true, token: jwt_token });
         });
     }
     catch (err) {
@@ -85,8 +81,7 @@ app.post('/api/login', (req, res) => __awaiter(void 0, void 0, void 0, function*
                 email: currentUser.email,
                 name: currentUser.name,
             }, JWT_SECRET, { algorithm: 'HS256' });
-            res.cookie('token', jwt_token);
-            return res.status(200).json({ success: true });
+            return res.status(200).json({ success: true, token: jwt_token });
         }
         else {
             return res

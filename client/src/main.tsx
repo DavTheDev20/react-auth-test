@@ -6,6 +6,8 @@ import './index.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { AuthenticatedRoute } from './auth';
+import { getCookie } from './utils/cookieUtils';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,24 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <App component={<Login />} />,
+  },
+  {
+    path: '/test',
+    element: (
+      <AuthenticatedRoute>
+        <div>
+          <h1>You're authenticated.</h1>
+          <button
+            onClick={() => {
+              const cookie = getCookie('token');
+              alert('Cookie: ' + cookie);
+            }}
+          >
+            Check Status
+          </button>
+        </div>
+      </AuthenticatedRoute>
+    ),
   },
 ]);
 
