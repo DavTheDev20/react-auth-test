@@ -1,4 +1,5 @@
 import { getCookie } from './utils/cookieUtils';
+import axios from 'axios';
 
 export const storeToken = (token: any) => {
   try {
@@ -12,8 +13,10 @@ export const checkAuth = (): boolean => {
   let res = false;
   const token = getCookie('token');
   // Add API to verifiy token's validity.
+  axios({
+    method: 'POST',
+  });
   if (token) return true;
-
   return false;
 };
 

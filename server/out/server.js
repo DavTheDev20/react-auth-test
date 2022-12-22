@@ -93,4 +93,19 @@ app.post('/api/login', (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(500).json({ success: false, error: err });
     });
 }));
+app.post('/api/verify', (req, res) => {
+    const token = req.body.token;
+    if (!token)
+        return res
+            .status(400)
+            .json({ success: false, error: 'No token present in body.' });
+    try {
+        const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
+        if (decoded)
+            return res.status(200).json({ success: true });
+    }
+    catch (err) {
+        return res.status(400).json({ success: false, error: err });
+    }
+});
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

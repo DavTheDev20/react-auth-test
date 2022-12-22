@@ -106,4 +106,20 @@ app.post('/api/login', async (req, res) => {
     });
 });
 
+app.post('/api/verify', (req, res) => {
+  const token = req.body.token;
+
+  if (!token)
+    return res
+      .status(400)
+      .json({ success: false, error: 'No token present in body.' });
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if (decoded) return res.status(200).json({ success: true });
+  } catch (err) {
+    return res.status(400).json({ success: false, error: err });
+  }
+});
+
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
