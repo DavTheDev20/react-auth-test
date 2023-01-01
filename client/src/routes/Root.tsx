@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
-import '../../Root.css';
+import '../Root.css';
 
 export default function Root() {
   const currenYear = new Date().getFullYear();
@@ -10,10 +10,36 @@ export default function Root() {
         <Link to="/">React Auth</Link>
         <ul>
           <li>
-            <Link to="/register">Register</Link>
+            <div>
+              <form style={{ textAlign: 'center' }} id="login-form">
+                <input
+                  type={'email'}
+                  placeholder={'enter your email'}
+                  name="email"
+                />
+                <br />
+                <input
+                  type={'password'}
+                  placeholder={'enter your password'}
+                  name="password"
+                />
+                <br />
+                <button
+                  type="submit"
+                  style={{
+                    marginTop: '5px',
+                    padding: '5px',
+                    width: '75%',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Login
+                </button>
+              </form>
+            </div>
           </li>
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
           </li>
         </ul>
       </nav>
