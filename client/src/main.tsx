@@ -1,38 +1,32 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Root from './routes/Root';
+import ErrorPage from './error-page';
+import Login from './routes/Login';
+import Register from './routes/Register';
 import './index.css';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Data from './pages/Data';
-import { AuthenticatedRoute } from './auth';
-import { getCookie } from './utils/cookieUtils';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App component={<Home />} />,
-  },
-  {
-    path: '/register',
-    element: <App component={<Register />} />,
-  },
-  {
-    path: '/login',
-    element: <App component={<Login />} />,
-  },
-  {
-    path: '/data',
-    element: (
-      <AuthenticatedRoute>
-        <App component={<Data />} />
-      </AuthenticatedRoute>
-    ),
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/register',
+        element: <Register />,
+      },
+    ],
   },
 ]);
 
-const root: any = document.getElementById('root');
-
-createRoot(root).render(<RouterProvider router={router} />);
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
