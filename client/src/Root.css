@@ -28,6 +28,17 @@ nav input {
   padding: 5px;
 }
 
+#login-form {
+  text-align: center;
+}
+
+#login-form button {
+  width: 60%;
+  padding: 5px;
+  margin: 7px 0 10px;
+  cursor: pointer;
+}
+
 .main-content {
   margin-left: 17vw;
   padding-top: 2vh;
