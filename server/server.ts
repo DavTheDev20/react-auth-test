@@ -60,7 +60,9 @@ app.post('/api/register', async (req, res) => {
         JWT_SECRET,
         { algorithm: 'HS256' }
       );
-      return res.status(200).json({ success: true, token: jwt_token });
+      return res
+        .status(200)
+        .json({ success: true, token: jwt_token, name: user.name });
     });
   } catch (err: any) {
     return res.status(400).json({ success: false, error: err.message });
@@ -94,7 +96,9 @@ app.post('/api/login', async (req, res) => {
           JWT_SECRET,
           { algorithm: 'HS256' }
         );
-        return res.status(200).json({ success: true, token: jwt_token });
+        return res
+          .status(200)
+          .json({ success: true, token: jwt_token, name: currentUser.name });
       } else {
         return res
           .status(401)

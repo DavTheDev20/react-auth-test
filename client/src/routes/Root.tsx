@@ -9,6 +9,7 @@ export default function Root() {
   const currenYear = new Date().getFullYear();
 
   const user = useAuth();
+  const userName = localStorage.getItem('name');
   const navigate = useNavigate();
 
   const login = (event: React.FormEvent) => {
@@ -38,6 +39,7 @@ export default function Root() {
         <Link to="/">React Auth</Link>
         {user ? (
           <ul>
+            <li style={{ color: '#fff' }}>Welcome {userName}</li>
             <li>
               <Link to="/secret">Secret</Link>
             </li>

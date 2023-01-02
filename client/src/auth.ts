@@ -19,7 +19,9 @@ export const authProvder = {
       if (response.status === 200) {
         console.log('Login successsful.');
         const userToken = data.token;
+        const userName = data.name;
         localStorage.setItem('user', userToken);
+        localStorage.setItem('name', userName);
         return callback();
       }
     } catch (error: any) {
@@ -49,7 +51,9 @@ export const authProvder = {
       if (response.status === 200) {
         console.log('Successfuly registered...');
         const userToken = data.token;
+        const userName = data.name;
         localStorage.setItem('user', userToken);
+        localStorage.setItem('name', userName);
         return callback();
       }
     } catch (error: any) {
