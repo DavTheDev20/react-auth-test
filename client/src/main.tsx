@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './routes/Root';
 import ErrorPage from './error-page';
 import Home from './routes/Home';
 import Register from './routes/Register';
+import { AuthContextType, authProvider } from './auth';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -24,6 +25,23 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+// let AuthContext = React.createContext<AuthContextType>(null!);
+
+// function AuthProvider({ children }: { children: React.ReactNode }) {
+//   let [userInfo, setUserInfo] = useState({
+//     email: "",
+//     password: ""
+//   });
+
+//   let [user, setUser] = useState<any>(null);
+
+//   let signIn = () => {
+//     return authProvider.signIn()
+//   }
+
+//   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+// }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
