@@ -31,6 +31,7 @@ export const authProvder = {
   },
   logout(callback: VoidFunction) {
     localStorage.removeItem('user');
+    localStorage.removeItem('name');
     callback();
   },
   async register(

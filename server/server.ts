@@ -81,7 +81,9 @@ app.post('/api/login', async (req, res) => {
   const currentUser = await User.findOne({ email: body.email });
 
   if (!currentUser)
-    return res.status(400).json({ success: false, error: 'No user found.' });
+    return res
+      .status(400)
+      .json({ success: false, error: 'No user found, please register.' });
 
   bcrypt
     .compare(body.password, currentUser.password)

@@ -73,7 +73,9 @@ app.post('/api/login', (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     const currentUser = yield user_1.default.findOne({ email: body.email });
     if (!currentUser)
-        return res.status(400).json({ success: false, error: 'No user found.' });
+        return res
+            .status(400)
+            .json({ success: false, error: 'No user found, please register.' });
     bcrypt_1.default
         .compare(body.password, currentUser.password)
         .then((isPasswordCorrect) => {
